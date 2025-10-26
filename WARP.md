@@ -4,7 +4,9 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Commands
 
-- Setup (editable install + dev tools):
+- Install (one command):
+  - brew install millsondylan/forge/forge
+- Dev setup (editable install + dev tools):
   - python3 -m venv .venv && source .venv/bin/activate && pip install -U pip && pip install -e .[dev]
   - make dev
 - Auth (Anthropic browser login):

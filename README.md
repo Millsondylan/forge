@@ -69,6 +69,10 @@ Every request follows this chain:
 
 ---
 
+## Installation (one command)
+
+- brew install millsondylan/forge/forge
+
 ## 🧩 4. Command Structure
 
 | Command | Description |

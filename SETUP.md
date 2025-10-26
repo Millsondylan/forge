@@ -2,7 +2,7 @@
 
 ## One-command install (Homebrew)
 
-- brew install --formula https://raw.githubusercontent.com/Millsondylan/forge/main/Formula/forge.rb
+- brew install millsondylan/forge/forge
 
 - Verify:
   - forge --help
