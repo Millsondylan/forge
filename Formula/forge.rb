@@ -4,8 +4,8 @@ class Forge < Formula
   desc "AgentForge CLI: spawn/manage 500+ Anthropic agents with queue and scheduler"
   homepage "https://github.com/Millsondylan/forge"
   url "https://github.com/Millsondylan/forge/archive/refs/heads/main.tar.gz"
+  sha256 :no_check
   version "0.1.0"
-  head "https://github.com/Millsondylan/forge.git", branch: "main"
 
   depends_on "python@3.11"
 
