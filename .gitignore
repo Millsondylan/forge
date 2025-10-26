@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.env
+.env.*
+*.env
+.build/
+.dist/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+
+# Runtime artifacts
+forge.db
+logs/
+
+# macOS
+.DS_Store

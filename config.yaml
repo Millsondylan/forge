@@ -1,0 +1,10 @@
+model: claude-3.5-sonnet
+providers:
+  anthropic_key: ""
+  openai_key: ""
+  gemini_key: ""
+  ollama_host: "http://localhost:11434"
+concurrency_limit: 500
+retry_policy:
+  max_retries: 3
+  delay_seconds: 5
