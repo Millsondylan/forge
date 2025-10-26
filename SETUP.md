@@ -1,6 +1,13 @@
 # Setup and installation
 
-## Via Homebrew + pipx (recommended)
+## One-command install (Homebrew)
+
+- brew install --formula https://raw.githubusercontent.com/Millsondylan/forge/main/Formula/forge.rb
+
+- Verify:
+  - forge --help
+
+## Alternative (pipx)
 
 - Install prerequisites:
   - brew install python@3.11 pipx

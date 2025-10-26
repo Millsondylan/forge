@@ -11,6 +11,7 @@ from .config import ensure_config, load_config, set_model, get_model, available_
 from .models import make_provider
 from . import storage
 from .agent_manager import run_queue
+from .studio import launch_studio
 from .scheduler import run_scheduler
 
 LOG_DIR = Path("logs")
@@ -153,9 +154,6 @@ def agent_spawn(n: int, model_override: str | None, retries: int | None):
     model = model_override or cfg.get("model", get_model())
     model_name, provider = make_provider(model)
     retry_count = retries if retries is not None else int(cfg.get("retry_policy", {}).get("max_retries", 0))
-    # Prompt login if using Anthropic
-    if model_name != "debug-echo" and hasattr(provider, "_ensure_client"):
-        asyncio.run(provider._ensure_client())  # type: ignore[attr-defined]
     click.echo(f"Running queue with concurrency={n} on model={model_name} (retries={retry_count})")
     asyncio.run(run_queue(n, provider, retry_count))
 
@@ -283,10 +281,47 @@ def commands(slash: str):
         "/schedule add <task> <time>",
         "/schedule run",
         "/monitor",
+        "/studio",
+        "/yolo",
     ]
     if slash:
         items = [x for x in items if x.startswith(slash)]
     click.echo("\n".join(items))
+
+
+@main.command()
+@click.option("--concurrency", default=None, type=int)
+@click.option("--model", "model_override", default=None)
+@click.option("--retries", default=None, type=int)
+def studio(concurrency: int | None, model_override: str | None, retries: int | None):
+    cfg = load_config()
+    n = concurrency or int(cfg.get("concurrency_limit", 1))
+    model = model_override or cfg.get("model", get_model())
+    model_name, provider = make_provider(model)
+    retry_count = retries if retries is not None else int(cfg.get("retry_policy", {}).get("max_retries", 0))
+
+    async def runner():
+        await run_queue(n, provider, retry_count, continuous=True)
+
+    async def enqueue(payload: str):
+        await storage.enqueue_task(payload)
+
+    launch_studio(n, runner, enqueue)
+
+
+@main.command()
+@click.option("--concurrency", default=None, type=int)
+@click.option("--model", "model_override", default=None)
+@click.option("--retries", default=None, type=int)
+def yolo(concurrency: int | None, model_override: str | None, retries: int | None):
+    """Run queue continuously, no prompts, full auto."""
+    cfg = load_config()
+    n = concurrency or int(cfg.get("concurrency_limit", 1))
+    model = model_override or cfg.get("model", get_model())
+    model_name, provider = make_provider(model)
+    retry_count = retries if retries is not None else int(cfg.get("retry_policy", {}).get("max_retries", 0))
+    click.echo(f"Autopilot: concurrency={n} model={model_name} retries={retry_count}")
+    asyncio.run(run_queue(n, provider, retry_count, continuous=True))
 
 
 if __name__ == "__main__":

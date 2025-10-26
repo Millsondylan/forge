@@ -18,7 +18,7 @@ class AgentPool:
         return await asyncio.gather(*coros, return_exceptions=True)
 
 
-async def run_queue(concurrency: int, provider: BaseProvider, retries: int = 0) -> None:
+async def run_queue(concurrency: int, provider: BaseProvider, retries: int = 0, continuous: bool = False) -> None:
     logger = logging.getLogger("runner")
     # System log file
     from pathlib import Path
@@ -32,11 +32,16 @@ async def run_queue(concurrency: int, provider: BaseProvider, retries: int = 0) 
     await storage.init_db()
 
     async def worker(worker_id: int):
+        idle_streak = 0
         while True:
             item = await storage.acquire_next_task()
             if not item:
-                # No more queued tasks; exit
-                return
+                if not continuous:
+                    return
+                idle_streak += 1
+                await asyncio.sleep(min(1.0 * (1 + idle_streak // 10), 5.0))
+                continue
+            idle_streak = 0
             task_id, payload = item
             agent = Agent(worker_id, provider)
             attempt = 0

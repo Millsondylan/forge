@@ -81,6 +81,8 @@ Every request follows this chain:
 | `forge queue add <task>` | Add task to execution queue |
 | `forge schedule <task> <time>` | Schedule future execution |
 | `forge monitor` | Watch live progress, logs, and status |
+| `forge studio` | Full-screen live dashboard with input box |
+| `forge yolo` | Run continuously with no prompts |
 
 ---
 

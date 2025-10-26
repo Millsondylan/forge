@@ -7,7 +7,7 @@ import yaml
 CONFIG_PATH = Path(os.getenv("FORGE_CONFIG", "config.yaml")).resolve()
 
 DEFAULT_CONFIG: Dict[str, Any] = {
-    "model": "claude-3.5-sonnet",
+    "model": "debug-echo",
     "providers": {
         "anthropic": "login",  # managed via `anthropic login`
     },
