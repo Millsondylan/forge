@@ -25,6 +25,8 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
   - forge schedule run --interval 1.0
 - Monitor (simple TUI):
   - forge monitor
+- Slash-style palette:
+  - forge commands           # prints /-prefixed command palette
 - Lint/format/typecheck/tests:
   - make lint
   - make format

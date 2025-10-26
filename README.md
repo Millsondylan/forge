@@ -75,6 +75,7 @@ Every request follows this chain:
 |----------|-------------|
 | `forge init` | Setup base config and credentials |
 | `forge auth anthropic` | Browser login to Anthropic account |
+| `forge model select` | Interactive model picker |
 | `forge model set <model>` | Switch all agents’ models instantly |
 | `forge agent spawn <n>` | Launch concurrent agents |
 | `forge queue add <task>` | Add task to execution queue |
